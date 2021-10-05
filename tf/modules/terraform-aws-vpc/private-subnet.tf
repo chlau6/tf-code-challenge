@@ -43,7 +43,7 @@ resource "aws_route_table_association" "private_route_table_association" {
 
 // add routing rules in route table
 resource "aws_route" "private-route" {
-  count                   = var.is_custom ? 0 : length(var.az)
+  count                   = var.is_custom && var.nat_gw_id == "" ? 0 : length(var.az)
   route_table_id          = aws_route_table.private_route_table[count.index].id
   destination_cidr_block  = "0.0.0.0/0"
   nat_gateway_id          = var.is_custom ? var.nat_gw_id : aws_nat_gateway.nat_gateway.id

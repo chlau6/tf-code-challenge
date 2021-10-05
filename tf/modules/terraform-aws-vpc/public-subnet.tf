@@ -36,7 +36,7 @@ resource "aws_route_table_association" "public_route_table_association" {
 
 // add routing rules in route table
 resource "aws_route" "public-route" {
-  count                   = var.is_custom ? 0 : length(var.az)
+  count                   = var.is_custom && var.igw_id == "" ? 0 : length(var.az)
   route_table_id          = aws_route_table.public_route_table[count.index].id
   destination_cidr_block  = "0.0.0.0/0"
   gateway_id              = var.is_custom ? var.igw_id : aws_internet_gateway.igw.id
