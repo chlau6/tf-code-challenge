@@ -9,7 +9,7 @@ resource "aws_internet_gateway" "igw" {
 
 // create public subnets, every availability zone has one subnet to achieve high availability
 resource "aws_subnet" "public_subnet" {
-  count = length(var.public_subnet_cidr)
+  count             = length(var.public_subnet_cidr)
 
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.public_subnet_cidr[count.index]
@@ -22,23 +22,23 @@ resource "aws_subnet" "public_subnet" {
 
 // create public route table, every availability zone has one route table
 resource "aws_route_table" "public_route_table" {
-  count = length(var.az)
-  vpc_id = aws_vpc.vpc.id
+  count   = length(var.az)
+  vpc_id  = aws_vpc.vpc.id
 }
 
 // attach route table to subnet
 resource "aws_route_table_association" "public_route_table_association" {
-  count = length(var.public_subnet_cidr)
+  count           = length(var.public_subnet_cidr)
 
-  subnet_id = element(aws_subnet.public_subnet.*.id, count.index)
-  route_table_id = element(aws_route_table.public_route_table.*.id, count.index)
+  subnet_id       = element(aws_subnet.public_subnet.*.id, count.index)
+  route_table_id  = element(aws_route_table.public_route_table.*.id, count.index)
 }
 
 // add routing rules in route table
 resource "aws_route" "public-route" {
-  count = var.is_custom ? 0 : length(var.az)
-  route_table_id = element(aws_route_table.public_route_table.*.id, count.index)
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id = var.is_custom ? var.igw_id : aws_internet_gateway.igw.id
+  count                   = var.is_custom ? 0 : length(var.az)
+  route_table_id          = element(aws_route_table.public_route_table.*.id, count.index)
+  destination_cidr_block  = "0.0.0.0/0"
+  gateway_id              = var.is_custom ? var.igw_id : aws_internet_gateway.igw.id
 }
 
