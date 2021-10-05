@@ -1,5 +1,5 @@
 resource "aws_eip" "ip" {
-  count = var.is_custom ? length(var.az) : 0
+  count = var.is_custom ? 0 : length(var.az)
   vpc   = true
 }
 
