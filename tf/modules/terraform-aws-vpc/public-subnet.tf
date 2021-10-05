@@ -1,6 +1,7 @@
 // create internet gateway, allow public subnet to access the Internet
 resource "aws_internet_gateway" "igw" {
-  vpc_id = var.is_custom ? 0 : aws_vpc.vpc.id
+  // vpc_id = var.is_custom ? 0 : aws_vpc.vpc.id
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
     name = "${var.project}-igw"

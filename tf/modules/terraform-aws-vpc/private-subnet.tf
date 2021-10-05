@@ -1,11 +1,13 @@
 resource "aws_eip" "ip" {
-  count = var.is_custom ? 0 : length(var.az)
+  // count = var.is_custom ? 0 : length(var.az)
+  count = length(var.az)
   vpc   = true
 }
 
 // create nat gateway, every availability zone has one nat gateway, allow private subnet to have access to the Internet
 resource "aws_nat_gateway" "nat_gateway" {
-  count         = var.is_custom ? 0 : length(var.az)
+  // count         = var.is_custom ? 0 : length(var.az)
+  count         = length(var.az)
   allocation_id = aws_eip.ip[count.index].id
   subnet_id     = aws_subnet.public_subnet[count.index].id
 
