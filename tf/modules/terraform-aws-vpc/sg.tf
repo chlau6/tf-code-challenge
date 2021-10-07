@@ -6,7 +6,7 @@ resource "aws_security_group" "default" {
     from_port   = "0"
     to_port     = "0"
     protocol    = "-1"
-    cidr_blocks = [aws_vpc.vpc.id]
+    cidr_blocks = [aws_vpc.vpc.cidr_block]
   }
 
   egress {
@@ -17,6 +17,6 @@ resource "aws_security_group" "default" {
   }
 
   tags = {
-    name = "${var.project}-sg"
+    Name = "${var.project}-sg"
   }
 }
