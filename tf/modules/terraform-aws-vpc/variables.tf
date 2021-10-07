@@ -8,24 +8,19 @@ variable "region" {
   type        = string
 }
 
-variable "az" {
-  description = "availability zone, must match the length of public subnet / private subnet"
-  type        = list(string)
-}
-
 variable "vpc_cidr" {
   description = "vpc cidr block"
   type        = string
 }
 
-variable "public_subnet_cidr" {
-  description = "public subnet cidr, at most 3 public subnets"
-  type        = list(string)
+variable "public_subnet" {
+  description = "public subnet cidr with az"
+  type        = list(object({ cidr = string, availability_zone = string }))
 }
 
-variable "private_subnet_cidr" {
-  description = "private subnet cidr, at most 3 private subnets"
-  type        = list(string)
+variable "private_subnet" {
+  description = "private subnet cidr with az"
+  type        = list(object({ cidr = string, availability_zone = string }))
 }
 
 variable "is_custom" {
